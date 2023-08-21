@@ -12,7 +12,7 @@ app.engine('jsx', require('express-react-views').createEngine());
 
 // LISTENER
 app.listen(port, (req, res) => {
-    console.log(`This Express Server is brought to you, today, by Port ${port}.`);
+    console.log(`listening on port ${port}.`);
 });
 
 // INDEX PAGE
@@ -28,12 +28,40 @@ app.get("/", (req, res) => {
         `);
 });
 
+//MiddleWare
+app.use((req,res,next)=> {
+    console.log('I run for all routes!')
+    next();
+})
+
+//this allows the body 
+app.use(express.urlencoded({extended:false}))
+
 // FRUIT ROUTES
 app.get("/fruits", (req, res) => {
     res.render("fruits/Index", {
         fruits: fruits
     });
 });
+
+//new route
+
+app.get('/fruits/new' , (req,res) =>{
+    res.render('fruits/New')
+})
+
+//create
+app.post('/fruits', (req,res) => {
+    console.log(req.body)
+    if(req.body.readyToEat === 'on'){
+        req.body.readyToEat = true;
+    }else{
+        req.body.readyToEat = false;
+    }
+    fruits.push(req.body)
+    console.log("the fruits array", fruits)
+    res.redirect("/fruits")
+})
 
 app.get("/fruits/:index", (req, res) => {
     res.render("fruits/Show", { // SECOND PARAM MUST BE AN OBJECT

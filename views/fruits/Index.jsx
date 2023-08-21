@@ -4,6 +4,9 @@ module.exports = function Index({fruits}) {
 
     return(
       <div>
+        <nav>
+          <a href="/fruits/new">Create New Fruit</a>
+        </nav>
         <h1>Our Selection of Fruits</h1>
           {fruits.map((fruit, index) => {
               return (
