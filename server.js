@@ -76,6 +76,25 @@ app.get("/vegetables", (req, res) => {
     });
 });
 
+//new route
+
+app.get('/veg/new' , (req,res) =>{
+    res.render('veg/New')
+})
+
+//create
+app.post('/vegetables', (req,res) => {
+    console.log(req.body)
+    if(req.body.readyToEat === 'on'){
+        req.body.readyToEat = true;
+    }else{
+        req.body.readyToEat = false;
+    }
+    vegetables.push(req.body)
+    console.log("the vegetables array", vegetables)
+    res.redirect("/vegetables")
+})
+
 app.get("/vegetables/:index", (req, res) => {
     res.render("veg/Show", {
         vegetable: vegetables[req.params.index]
